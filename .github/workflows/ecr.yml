@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build Image
+    name: Build docker Image
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -34,3 +34,7 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_IMAGE_NAME:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_IMAGE_NAME:$IMAGE_TAG
+
+      - name: logout
+        if: always()
+        run: docker logout ${{ steps.login-ecr.outputs.registry }}
